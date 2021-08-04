@@ -7,24 +7,24 @@ help: ## ** Show this help message
 
 
 up: ## Set Up the Virtual Environment
-	zsh ./bin/venv-up.sh
+	bash ./bin/venv-up.sh
 
 
 remove: ## Remove Virtual Environment
-	zsh ./bin/venv-remove.sh
+	bash ./bin/venv-remove.sh
 
 
 pip-dev-install: ## Install This Package in Editable Mode
-	zsh ./bin/pip-dev-install.sh
+	bash ./bin/pip-dev-install.sh
 
 
 build-wf: ## Build Alfred Workflow
-	zsh ./bin/build-wf.sh
+	bash ./bin/build-wf.sh
 
 
 refresh-code: ## Refresh Source Code
-	zsh ./bin/refresh-code.sh
+	bash ./bin/refresh-code.sh
 
 
 info: ## Show information about python, pip in this environment
-	zsh ./bin/info.sh
+	bash ./bin/info.sh
