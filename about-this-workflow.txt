@@ -1,0 +1,13 @@
+This workflow can generate secure password that:
+
+- length is between 8, 32 (you can define it)
+- has at least one lowercase letter
+- has at least one upper letter
+- has at least one digital letter
+- has at least one special character
+- avoid characters like ``1lIoO0`` that is hard to distinguish
+
+Dependencies:
+
+- OS Intel / Arm
+- Python3.7+
