@@ -49,7 +49,7 @@
 				<key>runningsubtext</key>
 				<string>please wait ...</string>
 				<key>script</key>
-				<string>~/.pyenv/shims/python3.8 main.py 'genpass {query}'</string>
+				<string>/usr/bin/python3 main.py 'genpass {query}'</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
