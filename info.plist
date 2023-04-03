@@ -4,6 +4,8 @@
 <dict>
 	<key>bundleid</key>
 	<string>MacHu-GWU.generate-secure-password</string>
+	<key>category</key>
+	<string>Productivity</string>
 	<key>connections</key>
 	<dict>
 		<key>C9643FA2-6BC2-4020-A2D4-4099AF6D58DE</key>
@@ -12,7 +14,7 @@
 	<key>createdby</key>
 	<string>Sanhe Hu</string>
 	<key>description</key>
-	<string>Generate Secure Password</string>
+	<string>Generate a Secure Password made easy</string>
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
