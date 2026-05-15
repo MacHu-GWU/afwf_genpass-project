@@ -1,15 +1,8 @@
 # User Settings
 afwf_genpass.egg-info/
-afwf_genpass-*/
+docs/source/**/index.md
+.claude/claude-code-message*
 tmp/
-
-requirements-main.txt
-requirements-dev.txt
-requirements-test.txt
-requirements-doc.txt
-
-.poetry-lock-hash.json
-.current-env-name.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -95,7 +88,6 @@ celerybeat-schedule
 .env
 
 # virtualenv
-.venv/
 venv/
 ENV/
 
