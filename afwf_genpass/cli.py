@@ -24,7 +24,7 @@ def _error_sf(exc: Exception) -> afwf.ScriptFilter:
 
 
 class Command:
-    def genpass(self, query: str = "") -> None:
+    def genpass(self, query: str) -> None:
         """Script Filter: generate random passwords.
 
         Alfred Script field (dev):
@@ -33,6 +33,8 @@ class Command:
         Alfred Script field (prod):
             ~/.local/bin/uvx --from afwf_genpass==<ver> afwf-genpass genpass --query '{query}'
         """
+        if not query:
+            query = "12"
 
         @_log_error
         def _run():

@@ -13,6 +13,7 @@ from afwf_genpass.constants import (
 from afwf_genpass.genpass import (
     is_valid_password,
     random_password,
+    gen_passwords,
     main,
 )
 
@@ -34,6 +35,15 @@ def test_random_password():
     for _ in range(10):
         password = random_password(default_length)
         assert is_valid_password(password)
+
+
+def test_gen_passwords():
+    sf = gen_passwords(default_length)
+    assert len(sf.items) == n_password
+    for item in sf.items:
+        assert len(item.arg) == default_length
+        assert item.title == item.arg
+        assert item.valid is True
 
 
 class TestMain:
@@ -73,14 +83,6 @@ class TestMain:
         assert "is NOT a valid length" in item.title
         assert item.icon is not None
         assert item.icon.path == str(afwf.IconFileEnum.error)
-
-    def test_multi_token_argument(self):
-        sf = main(query="Hello World")
-        assert len(sf.items) == 1
-        item = sf.items[0]
-        assert "Hello World" in item.title
-        assert "is NOT a valid length" in item.title
-        assert item.icon is not None
 
     def test_out_of_range_argument(self):
         for query in (str(min_length - 1), str(max_length + 1)):

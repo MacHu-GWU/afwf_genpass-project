@@ -37,7 +37,11 @@ def random_password(length: int) -> str:
     return password
 
 
-def _build_passwords_sf(length: int) -> afwf.ScriptFilter:
+def gen_passwords(length: int) -> afwf.ScriptFilter:
+    """
+    Given an integer ``length`` in ``[min_length, max_length]``, return a
+    ``ScriptFilter`` containing ``n_password`` freshly generated passwords.
+    """
     sf = afwf.ScriptFilter()
     for _ in range(n_password):
         password = random_password(length)
@@ -63,10 +67,15 @@ def _invalid_length_sf(title: str) -> afwf.ScriptFilter:
 
 
 def main(query: str) -> afwf.ScriptFilter:
-    q = afwf.Query.from_str(query)
-    n_parts = q.n_trimmed_parts
+    """
+    Alfred Script Filter entry point.
 
-    if n_parts == 0:
+    ``query`` must be a string that parses as an integer in
+    ``[min_length, max_length]``. Anything else returns an error item.
+    """
+    query = query.strip()
+
+    if not query:
         item = afwf.Item(
             title=msg_enter_password,
             subtitle=msg_autocomplete,
@@ -75,16 +84,12 @@ def main(query: str) -> afwf.ScriptFilter:
         )
         return afwf.ScriptFilter(items=[item])
 
-    if n_parts == 1:
-        token = q.trimmed_parts[0]
-        try:
-            length = int(token)
-        except ValueError:
-            return _invalid_length_sf(f"`{token}` is NOT a valid length!")
+    try:
+        length = int(query)
+    except ValueError:
+        return _invalid_length_sf(f"`{query}` is NOT a valid length!")
 
-        if min_length <= length <= max_length:
-            return _build_passwords_sf(length=length)
+    if min_length <= length <= max_length:
+        return gen_passwords(length)
 
-        return _invalid_length_sf(msg_invalid_length_value)
-
-    return _invalid_length_sf(f"`{query}` is NOT a valid length!")
+    return _invalid_length_sf(msg_invalid_length_value)
