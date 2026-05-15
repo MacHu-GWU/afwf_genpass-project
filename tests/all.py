@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 
 if __name__ == "__main__":
-    import pytest
+    from afwf_genpass.tests import run_cov_test
 
-    pytest.main(["-s", "--tb=native"])
+    run_cov_test(
+        __file__,
+        "afwf_genpass",
+        is_folder=True,
+        preview=False,
+    )

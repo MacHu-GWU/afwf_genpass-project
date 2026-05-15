@@ -110,7 +110,7 @@ Download = "https://pypi.org/pypi/afwf-genpass#files"
 
 # For command line interface, read: https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#creating-executable-scripts
 [project.scripts]
-afwf-md5 = "afwf_md5.cli:run"
+afwf-genpass = "afwf_genpass.cli:run"
 
 [tool.setuptools.packages.find]
 where = ["."]

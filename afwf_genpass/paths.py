@@ -16,8 +16,22 @@ class PathEnum:
     resolution across different execution contexts and DevOps workflows.
     """
     @cached_property
-    def dir_home(self):
+    def dir_home(self) -> Path:
         return Path.home()
+
+    @cached_property
+    def dir_project_home(self) -> Path:
+        p = self.dir_home / ".alfred-afwf" / PACKAGE_NAME
+        p.mkdir(parents=True, exist_ok=True)
+        return p
+
+    @cached_property
+    def dir_cache(self) -> Path:
+        return self.dir_project_home / ".cache"
+
+    @cached_property
+    def path_error_log(self) -> Path:
+        return self.dir_project_home / "error.log"
 
     dir_project_root = _dir_here.parent
     dir_tmp = dir_project_root / "tmp"
