@@ -93,4 +93,4 @@ error item instead of producing garbage results.
 
 **Installation**:
 
-Go to https://github.com/MacHu-GWU/afwf_genpass-project/releases, download the latest ``Generate Secure Password.alfredworkflow`` file, double click to install.
+Go to https://github.com/MacHu-GWU/afwf_genpass-project/releases, download the latest ``afwf-genpass-X.Y.Z.alfredworkflow`` file, double click to install.
