@@ -19,11 +19,9 @@ Policy enforced for every accepted password:
 - Excludes the visually-confusing characters ``1``, ``l``, ``I``, ``O``, ``0``
 
 
-Files involved
+Source modules
 ------------------------------------------------------------------------------
-- `afwf_genpass/genpass.py <https://github.com/MacHu-GWU/afwf_genpass-project/blob/main/afwf_genpass/genpass.py>`_
-
-  The generator itself. Three public functions:
+- :mod:`afwf_genpass.genpass` — the generator itself. Three public functions:
 
   - ``is_valid_password(password)`` — policy check (four-class +
     starts-with-letter).
@@ -35,17 +33,13 @@ Files involved
     ``[min_length, max_length]``; otherwise shows an error item with an
     autocomplete hint.
 
-- `afwf_genpass/constants.py <https://github.com/MacHu-GWU/afwf_genpass-project/blob/main/afwf_genpass/constants.py>`_
+- :mod:`afwf_genpass.constants` — defines ``charset_lower``, ``charset_upper``,
+  ``charset_digits``, ``charset_symbols``, ``charset_banned``, the combined
+  ``charset_list``, ``min_length=8``, ``default_length=12``, ``max_length=32``,
+  ``n_password=8``, and the UI strings shown in Alfred when the user enters
+  nothing or an invalid value.
 
-  Defines ``charset_lower``, ``charset_upper``, ``charset_digits``,
-  ``charset_symbols``, ``charset_banned``, the combined ``charset_list``,
-  ``min_length=8``, ``default_length=12``, ``max_length=32``, ``n_password=8``,
-  and the UI strings shown in Alfred when the user enters nothing or an
-  invalid value.
-
-- `afwf_genpass/cli.py <https://github.com/MacHu-GWU/afwf_genpass-project/blob/main/afwf_genpass/cli.py>`_
-
-  Two subcommands wrap ``genpass``:
+- :mod:`afwf_genpass.cli` — two subcommands wrap ``genpass``:
 
   - ``Command.genpass(query)`` — Alfred Script Filter; empty ``query`` falls
     back to ``"12"``; exceptions are caught and rendered as an error item
@@ -53,24 +47,28 @@ Files involved
   - ``Command.genpass_one(length=default_length)`` — prints exactly one
     password to stdout, no Alfred JSON. Suitable for shell pipelines.
 
-- `info.plist <https://github.com/MacHu-GWU/afwf_genpass-project/blob/main/info.plist>`_
 
-  Alfred Script Filter node with ``keyword=genpass``, ``argumenttype=1``
-  (optional argument), calling::
+Alfred workflow definition
+------------------------------------------------------------------------------
+The Alfred Script Filter node for ``genpass`` lives in ``info.plist``, with
+``keyword=genpass`` and ``argumenttype=1`` (optional argument). Its ``script``
+field invokes::
 
-      ~/.local/bin/uvx --from "afwf-genpass==X.Y.Z" afwf-genpass genpass --query '{query}'
+    ~/.local/bin/uvx --from "afwf-genpass==X.Y.Z" afwf-genpass genpass --query '{query}'
+
+.. dropdown:: info.plist
+
+    .. literalinclude:: ../../../../info.plist
+       :language: xml
+       :linenos:
 
 
 Tests
 ------------------------------------------------------------------------------
-- `tests/test_genpass.py <https://github.com/MacHu-GWU/afwf_genpass-project/blob/main/tests/test_genpass.py>`_
+- :mod:`tests.test_genpass` — covers the policy check, the rejection-sampling
+  generator, the ``ScriptFilter`` builder, and every branch of ``main()``
+  (valid length, boundary lengths, empty/whitespace query, non-numeric query,
+  out-of-range length).
 
-  Covers the policy check, the rejection-sampling generator, the
-  ``ScriptFilter`` builder, and every branch of ``main()`` (valid length,
-  boundary lengths, empty/whitespace query, non-numeric query, out-of-range
-  length).
-
-- `tests/test_cli.py <https://github.com/MacHu-GWU/afwf_genpass-project/blob/main/tests/test_cli.py>`_
-
-  The ``TestGenpass`` and ``TestOneVariants`` classes exercise the CLI
-  wrappers — including the ``genpass_one`` stdout variant.
+- :mod:`tests.test_cli` — the ``TestGenpass`` and ``TestOneVariants`` classes
+  exercise the CLI wrappers, including the ``genpass_one`` stdout variant.

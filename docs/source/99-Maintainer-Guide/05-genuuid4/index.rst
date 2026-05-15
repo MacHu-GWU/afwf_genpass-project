@@ -15,26 +15,21 @@ length, no charset, no configuration. Every call returns 122 bits of
 randomness sourced from :func:`uuid.uuid4`.
 
 
-Files involved
+Source modules
 ------------------------------------------------------------------------------
-- `afwf_genpass/genuuid4.py <https://github.com/MacHu-GWU/afwf_genpass-project/blob/main/afwf_genpass/genuuid4.py>`_
-
-  The generator. Three public functions:
+- :mod:`afwf_genpass.genuuid4` — the generator. Three public functions:
 
   - ``gen_uuid4()`` — generate one UUID4 string.
   - ``gen_uuid4s()`` — build an ``afwf.ScriptFilter`` containing ``n_uuid4``
     (8) freshly generated UUID4s.
-  - ``main()`` — Alfred entry point. No parameters; returns the ``ScriptFilter``
-    directly.
+  - ``main()`` — Alfred entry point. No parameters; returns the
+    ``ScriptFilter`` directly.
 
-- `afwf_genpass/constants.py <https://github.com/MacHu-GWU/afwf_genpass-project/blob/main/afwf_genpass/constants.py>`_
+- :mod:`afwf_genpass.constants` — defines ``n_uuid4=8``, the only knob this
+  feature has. No charset or length bounds, since UUID4 is fully specified by
+  RFC 4122.
 
-  Defines ``n_uuid4=8`` — the only knob this feature has. No charset or length
-  bounds, since UUID4 is fully specified by RFC 4122.
-
-- `afwf_genpass/cli.py <https://github.com/MacHu-GWU/afwf_genpass-project/blob/main/afwf_genpass/cli.py>`_
-
-  Two subcommands wrap ``genuuid4``:
+- :mod:`afwf_genpass.cli` — two subcommands wrap ``genuuid4``:
 
   - ``Command.genuuid4()`` — Alfred Script Filter; takes no arguments. The
     matching Alfred node uses ``argumenttype=2`` (no argument). Exceptions
@@ -44,23 +39,27 @@ Files involved
     Alfred JSON. Suitable for shell pipelines (e.g.
     ``id=$(afwf-genpass genuuid4-one)``).
 
-- `info.plist <https://github.com/MacHu-GWU/afwf_genpass-project/blob/main/info.plist>`_
 
-  Alfred Script Filter node with ``keyword=genuuid4``, ``argumenttype=2``
-  (no argument — UUID4 has nothing to configure), calling::
+Alfred workflow definition
+------------------------------------------------------------------------------
+The Alfred Script Filter node for ``genuuid4`` lives in ``info.plist``, with
+``keyword=genuuid4`` and ``argumenttype=2`` (no argument — UUID4 has nothing
+to configure). Its ``script`` field invokes::
 
-      ~/.local/bin/uvx --from "afwf-genpass==X.Y.Z" afwf-genpass genuuid4
+    ~/.local/bin/uvx --from "afwf-genpass==X.Y.Z" afwf-genpass genuuid4
+
+.. dropdown:: info.plist
+
+    .. literalinclude:: ../../../../info.plist
+       :language: xml
+       :linenos:
 
 
 Tests
 ------------------------------------------------------------------------------
-- `tests/test_genuuid4.py <https://github.com/MacHu-GWU/afwf_genpass-project/blob/main/tests/test_genuuid4.py>`_
+- :mod:`tests.test_genuuid4` — covers ``gen_uuid4``, ``gen_uuid4s``, and
+  ``main()``. Each generated value is asserted to match the canonical UUID4
+  regex ``^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$``.
 
-  Covers ``gen_uuid4``, ``gen_uuid4s``, and ``main()``. Each generated value
-  is asserted to match the canonical UUID4 regex
-  ``^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$``.
-
-- `tests/test_cli.py <https://github.com/MacHu-GWU/afwf_genpass-project/blob/main/tests/test_cli.py>`_
-
-  The ``TestGenuuid4`` and ``TestOneVariants`` classes exercise the CLI
-  wrappers — including the ``genuuid4_one`` stdout variant.
+- :mod:`tests.test_cli` — the ``TestGenuuid4`` and ``TestOneVariants`` classes
+  exercise the CLI wrappers, including the ``genuuid4_one`` stdout variant.
