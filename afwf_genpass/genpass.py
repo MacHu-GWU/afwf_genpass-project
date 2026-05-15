@@ -1,5 +1,18 @@
 # -*- coding: utf-8 -*-
 
+"""
+Random password generator and its Alfred Script Filter entry point.
+
+Charset design:
+
+- ``lowercase + uppercase + digits + symbols`` (``!%@#&^*``)
+- minus visually-confusing characters: ``0``, ``1``, ``l``, ``I``, ``o``, ``O``
+
+Policy: every accepted password must contain at least one character from each
+of the four classes (lower, upper, digit, symbol) and must start with a letter
+— hand-typeable, mixed-class, and unambiguous when read aloud.
+"""
+
 import random
 
 import afwf.api as afwf
@@ -20,6 +33,7 @@ from .constants import n_password
 
 
 def is_valid_password(password: str) -> bool:
+    """Check that ``password`` satisfies the four-class + starts-with-letter policy."""
     has_lower = len(set(password).intersection(charset_lower)) > 0
     has_upper = len(set(password).intersection(charset_upper)) > 0
     has_digits = len(set(password).intersection(charset_digits)) > 0
@@ -29,6 +43,7 @@ def is_valid_password(password: str) -> bool:
 
 
 def random_password(length: int) -> str:
+    """Generate one random password of ``length`` chars; retries until valid."""
     password = "".join([random.choice(charset_list) for _ in range(length)])
     if not is_valid_password(password):
         return random_password(length)
@@ -36,10 +51,7 @@ def random_password(length: int) -> str:
 
 
 def gen_passwords(length: int) -> afwf.ScriptFilter:
-    """
-    Given an integer ``length`` in ``[min_length, max_length]``, return a
-    ``ScriptFilter`` containing ``n_password`` freshly generated passwords.
-    """
+    """Return a ``ScriptFilter`` of ``n_password`` fresh passwords of ``length``."""
     sf = afwf.ScriptFilter()
     for _ in range(n_password):
         password = random_password(length)
@@ -65,12 +77,8 @@ def _invalid_length_sf(title: str) -> afwf.ScriptFilter:
 
 
 def main(query: str) -> afwf.ScriptFilter:
-    """
-    Alfred Script Filter entry point.
-
-    ``query`` must be a string that parses as an integer in
-    ``[min_length, max_length]``. Anything else returns an error item.
-    """
+    """Alfred entry point. ``query`` parses as int in ``[min_length, max_length]``,
+    otherwise an error item is shown."""
     query = query.strip()
 
     if not query:

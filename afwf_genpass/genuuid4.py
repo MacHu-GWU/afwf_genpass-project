@@ -1,5 +1,13 @@
 # -*- coding: utf-8 -*-
 
+"""
+Random UUID4 generator and its Alfred Script Filter entry point.
+
+UUID4 has a fixed RFC 4122 format (``8-4-4-4-12`` lowercase hex, 36 chars
+incl. hyphens) so this module takes no length / charset configuration —
+it always produces 122 bits of randomness via :func:`uuid.uuid4`.
+"""
+
 import uuid
 
 import afwf.api as afwf
@@ -8,15 +16,12 @@ from .constants import n_uuid4
 
 
 def gen_uuid4() -> str:
-    """
-    Generate a single random UUID4 in the canonical 8-4-4-4-12 lowercase hex
-    form, e.g. ``550e8400-e29b-41d4-a716-446655440000``.
-    """
+    """Generate one random UUID4 string, e.g. ``550e8400-e29b-41d4-a716-446655440000``."""
     return str(uuid.uuid4())
 
 
 def gen_uuid4s() -> afwf.ScriptFilter:
-    """Return a ``ScriptFilter`` containing ``n_uuid4`` freshly generated UUID4s."""
+    """Return a ``ScriptFilter`` of ``n_uuid4`` fresh UUID4s."""
     sf = afwf.ScriptFilter()
     for _ in range(n_uuid4):
         u = gen_uuid4()
@@ -31,10 +36,5 @@ def gen_uuid4s() -> afwf.ScriptFilter:
 
 
 def main() -> afwf.ScriptFilter:
-    """
-    Alfred Script Filter entry point.
-
-    UUID4 has no parameters — each invocation simply returns ``n_uuid4``
-    freshly generated UUID4s.
-    """
+    """Alfred entry point. No parameters — returns ``n_uuid4`` fresh UUID4s."""
     return gen_uuid4s()

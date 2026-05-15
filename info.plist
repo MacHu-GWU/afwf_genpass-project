@@ -4,8 +4,6 @@
 <dict>
 	<key>bundleid</key>
 	<string>MacHu-GWU.generate-secure-password</string>
-	<key>category</key>
-	<string>Productivity</string>
 	<key>connections</key>
 	<dict>
 		<key>C9643FA2-6BC2-4020-A2D4-4099AF6D58DE</key>
@@ -18,7 +16,7 @@
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
-	<string>Generate Secure Password</string>
+	<string>afwf_genpass</string>
 	<key>objects</key>
 	<array>
 		<dict>
@@ -49,7 +47,8 @@
 				<key>runningsubtext</key>
 				<string>please wait ...</string>
 				<key>script</key>
-				<string>/usr/bin/python3 main.py 'genpass {query}'</string>
+				<string>~/.local/bin/uvx --from "afwf-genpass==0.1.2" afwf-genpass genpass --query '{query}'
+# ~/Documents/GitHub/afwf_genpass-project/.venv/bin/afwf-genpass genpass --query '{query}'</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -57,7 +56,7 @@
 				<key>subtext</key>
 				<string>Generate a secure password</string>
 				<key>title</key>
-				<string>Generate Secure Password</string>
+				<string>genpass</string>
 				<key>type</key>
 				<integer>0</integer>
 				<key>withspace</key>
@@ -70,19 +69,151 @@
 			<key>version</key>
 			<integer>3</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>68</integer>
+				<key>keyword</key>
+				<string>genid</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>1</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>please wait ...</string>
+				<key>script</key>
+				<string>~/.local/bin/uvx --from "afwf-genpass==0.1.2" afwf-genpass genid --query '{query}'
+# ~/Documents/GitHub/afwf_genpass-project/.venv/bin/afwf-genpass genid --query '{query}'</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Generate Random ID</string>
+				<key>title</key>
+				<string>genid</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>D5C6FAF4-8EC7-4F6E-842A-50587EDA22A9</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>escaping</key>
+				<integer>68</integer>
+				<key>keyword</key>
+				<string>genuuid4</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>1</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>please wait ...</string>
+				<key>script</key>
+				<string>~/.local/bin/uvx --from "afwf-genpass==0.1.2" afwf-genpass genuuid4
+# ~/Documents/GitHub/afwf_genpass-project/.venv/bin/afwf-genpass genuuid4</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Generate Random UUID 4</string>
+				<key>title</key>
+				<string>genuuid4</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>7CF84DAD-33A9-408A-8DA3-107AF4FCC927</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
 	</array>
 	<key>readme</key>
-	<string></string>
+	<string>This workflow can generate secure password that:
+
+- length is between 8, 32 (you can define it)
+- has at least one lowercase letter
+- has at least one upper letter
+- has at least one digital letter
+- has at least one special character
+- avoid characters like ``1lIoO0`` that is hard to distinguish
+
+Dependencies:
+
+- OS Intel / Arm
+- Python3.7+</string>
 	<key>uidata</key>
 	<dict>
+		<key>7CF84DAD-33A9-408A-8DA3-107AF4FCC927</key>
+		<dict>
+			<key>xpos</key>
+			<real>40</real>
+			<key>ypos</key>
+			<real>240</real>
+		</dict>
 		<key>C9643FA2-6BC2-4020-A2D4-4099AF6D58DE</key>
 		<dict>
 			<key>xpos</key>
-			<integer>40</integer>
+			<real>40</real>
 			<key>ypos</key>
-			<integer>30</integer>
+			<real>30</real>
+		</dict>
+		<key>D5C6FAF4-8EC7-4F6E-842A-50587EDA22A9</key>
+		<dict>
+			<key>xpos</key>
+			<real>40</real>
+			<key>ypos</key>
+			<real>135</real>
 		</dict>
 	</dict>
+	<key>userconfigurationconfig</key>
+	<array/>
+	<key>variablesdontexport</key>
+	<array/>
+	<key>version</key>
+	<string>0.1.1</string>
 	<key>webaddress</key>
 	<string>https://github.com/MacHu-GWU/afwf_genpass-project</string>
 </dict>

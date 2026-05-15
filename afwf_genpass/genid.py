@@ -1,5 +1,14 @@
 # -*- coding: utf-8 -*-
 
+"""
+YouTube-style random short-ID generator and its Alfred Script Filter entry point.
+
+Charset design: 57 URL-safe characters — ``base62`` minus visually-confusing
+``0`` / ``1`` / ``l`` / ``o`` / ``O`` (capital ``I`` is **kept**). Cryptographically
+strong via :func:`secrets.choice`; suitable as opaque IDs in URLs, filenames,
+slugs, etc. Survives being read aloud or hand-copied without ambiguity.
+"""
+
 import secrets
 
 import afwf.api as afwf
@@ -15,21 +24,12 @@ from .constants import n_id
 
 
 def gen_id(length: int) -> str:
-    """
-    Generate a single YouTube-style random ID of ``length`` characters.
-
-    Uses ``secrets.choice`` for cryptographic strength. The 57-char charset is
-    base62 minus visually-confusing characters (``0/O/o`` and ``1/l``), so IDs
-    survive being read aloud or hand-copied without ambiguity.
-    """
+    """Generate one random short ID of ``length`` chars from the module charset."""
     return "".join(secrets.choice(id_charset) for _ in range(length))
 
 
 def gen_ids(length: int) -> afwf.ScriptFilter:
-    """
-    Given an integer ``length`` in ``[id_min_length, id_max_length]``, return a
-    ``ScriptFilter`` containing ``n_id`` freshly generated short IDs.
-    """
+    """Return a ``ScriptFilter`` of ``n_id`` fresh short IDs of ``length``."""
     sf = afwf.ScriptFilter()
     for _ in range(n_id):
         sid = gen_id(length)
@@ -55,12 +55,8 @@ def _invalid_length_sf(title: str) -> afwf.ScriptFilter:
 
 
 def main(query: str) -> afwf.ScriptFilter:
-    """
-    Alfred Script Filter entry point.
-
-    ``query`` must be a string that parses as an integer in
-    ``[id_min_length, id_max_length]``. Anything else returns an error item.
-    """
+    """Alfred entry point. ``query`` parses as int in ``[id_min_length, id_max_length]``,
+    otherwise an error item is shown."""
     query = query.strip()
 
     if not query:
