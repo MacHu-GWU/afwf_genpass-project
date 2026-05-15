@@ -4,7 +4,7 @@ import fire
 import afwf.api as afwf
 
 from .genpass import main as genpass_main
-from .shortid import main as shortid_main
+from .genid import main as genid_main
 from .paths import path_enum
 
 _log_error = afwf.log_error(
@@ -46,21 +46,21 @@ class Command:
         except Exception as e:
             _error_sf(e).send_feedback()
 
-    def shortid(self, query: str) -> None:
+    def genid(self, query: str) -> None:
         """Script Filter: generate YouTube-style random short IDs.
 
         Alfred Script field (dev):
-            .venv/bin/afwf-genpass shortid --query '{query}'
+            .venv/bin/afwf-genpass genid --query '{query}'
 
         Alfred Script field (prod):
-            ~/.local/bin/uvx --from afwf_genpass==<ver> afwf-genpass shortid --query '{query}'
+            ~/.local/bin/uvx --from afwf_genpass==<ver> afwf-genpass genid --query '{query}'
         """
         if not query:
             query = "16"
 
         @_log_error
         def _run():
-            shortid_main(query=str(query)).send_feedback()
+            genid_main(query=str(query)).send_feedback()
 
         try:
             _run()

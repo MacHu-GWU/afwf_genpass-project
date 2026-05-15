@@ -5,9 +5,9 @@ import afwf.api as afwf
 from afwf_genpass.cli import Command
 from afwf_genpass.constants import (
     default_length,
+    id_default_length,
+    n_id,
     n_password,
-    n_shortid,
-    shortid_default_length,
 )
 
 
@@ -57,7 +57,7 @@ class TestGenpass:
         assert captured[0].items[0].icon is not None
 
 
-class TestShortid:
+class TestGenid:
     def test_empty_query_uses_default_length(self, monkeypatch):
         captured = []
         monkeypatch.setattr(
@@ -66,14 +66,14 @@ class TestShortid:
             lambda self: captured.append(self),
         )
 
-        Command().shortid(query="")
+        Command().genid(query="")
 
         assert len(captured) == 1
-        assert len(captured[0].items) == n_shortid
+        assert len(captured[0].items) == n_id
         for item in captured[0].items:
-            assert len(item.arg) == shortid_default_length
+            assert len(item.arg) == id_default_length
 
-    def test_valid_length_returns_shortids(self, monkeypatch):
+    def test_valid_length_returns_ids(self, monkeypatch):
         captured = []
         monkeypatch.setattr(
             afwf.ScriptFilter,
@@ -81,12 +81,12 @@ class TestShortid:
             lambda self: captured.append(self),
         )
 
-        Command().shortid(query=str(shortid_default_length))
+        Command().genid(query=str(id_default_length))
 
         assert len(captured) == 1
-        assert len(captured[0].items) == n_shortid
+        assert len(captured[0].items) == n_id
         for item in captured[0].items:
-            assert len(item.arg) == shortid_default_length
+            assert len(item.arg) == id_default_length
 
     def test_invalid_argument_returns_error_item(self, monkeypatch):
         captured = []
@@ -96,7 +96,7 @@ class TestShortid:
             lambda self: captured.append(self),
         )
 
-        Command().shortid(query="not-a-number")
+        Command().genid(query="not-a-number")
 
         assert len(captured) == 1
         assert len(captured[0].items) == 1

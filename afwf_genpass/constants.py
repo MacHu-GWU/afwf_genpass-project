@@ -37,25 +37,24 @@ msg_invalid_length_value = (
 #     lowercase: drop l (like 1), drop o (like 0)           → 24 chars
 #     uppercase: drop O (like 0)                            → 25 chars
 # ------------------------------------------------------------------------------
-shortid_charset: str = (
+id_charset: str = (
     "23456789"
     "abcdefghijkmnpqrstuvwxyz"
     "ABCDEFGHIJKLMNPQRSTUVWXYZ"
 )
 
-shortid_min_length = 6
-shortid_default_length = 16
-shortid_max_length = 32
-n_shortid = 8
+id_min_length = 6
+id_default_length = 16
+id_max_length = 32
+n_id = 8
 
-msg_enter_shortid = (
-    f"Enter short ID length "
-    f"({shortid_min_length} <= length <= {shortid_max_length}): "
+msg_enter_id = (
+    f"Enter ID length "
+    f"({id_min_length} <= length <= {id_max_length}): "
 )
-msg_shortid_autocomplete = (
-    f"Hit 'Tab' to use {shortid_default_length} characters"
+msg_id_autocomplete = (
+    f"Hit 'Tab' to use {id_default_length} characters"
 )
-msg_shortid_invalid_length_value = (
-    f"Short ID Length has to be between "
-    f"{shortid_min_length} and {shortid_max_length}!"
+msg_id_invalid_length_value = (
+    f"ID Length has to be between {id_min_length} and {id_max_length}!"
 )

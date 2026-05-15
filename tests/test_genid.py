@@ -3,72 +3,72 @@
 import afwf.api as afwf
 
 from afwf_genpass.constants import (
-    msg_enter_shortid,
-    msg_shortid_invalid_length_value,
-    n_shortid,
-    shortid_charset,
-    shortid_default_length,
-    shortid_max_length,
-    shortid_min_length,
+    id_charset,
+    id_default_length,
+    id_max_length,
+    id_min_length,
+    msg_enter_id,
+    msg_id_invalid_length_value,
+    n_id,
 )
-from afwf_genpass.shortid import (
-    gen_shortid,
-    gen_shortids,
+from afwf_genpass.genid import (
+    gen_id,
+    gen_ids,
     main,
 )
 
 
-def test_gen_shortid():
-    _charset_set = set(shortid_charset)
+def test_gen_id():
+    _charset_set = set(id_charset)
 
-    sid = gen_shortid(shortid_default_length)
+    sid = gen_id(id_default_length)
     assert isinstance(sid, str)
-    assert len(sid) == shortid_default_length
+    assert len(sid) == id_default_length
     assert all(ch in _charset_set for ch in sid)
 
-    for length in (shortid_min_length, shortid_max_length):
-        sid = gen_shortid(length)
+    for length in (id_min_length, id_max_length):
+        sid = gen_id(length)
         assert len(sid) == length
         assert all(ch in _charset_set for ch in sid)
 
 
-def test_gen_shortid_excludes_confusing_chars():
+def test_gen_id_excludes_confusing_chars():
     # Charset drops: 0 (looks like O/o), 1 (looks like l), l, O, o.
     # NOTE: capital `I` is kept in the charset.
     banned = set("01lOo")
     for _ in range(100):
-        sid = gen_shortid(shortid_default_length)
+        sid = gen_id(id_default_length)
         assert not (set(sid) & banned)
 
 
-def test_gen_shortid_is_random():
-    samples = {gen_shortid(shortid_default_length) for _ in range(20)}
+def test_gen_id_is_random():
+    samples = {gen_id(id_default_length) for _ in range(20)}
     # With 57^16 ≈ 1e28 possibilities, 20 samples should never collide.
     assert len(samples) == 20
 
 
-def test_gen_shortids():
-    sf = gen_shortids(shortid_default_length)
-    assert len(sf.items) == n_shortid
+def test_gen_ids():
+    sf = gen_ids(id_default_length)
+    assert len(sf.items) == n_id
     for item in sf.items:
-        assert len(item.arg) == shortid_default_length
+        assert len(item.arg) == id_default_length
         assert item.title == item.arg
         assert item.valid is True
 
 
 class TestMain:
-    def test_generate_shortid(self):
-        sf = main(query=str(shortid_default_length))
-        assert len(sf.items) == n_shortid
+    def test_generate_id(self):
+        sf = main(query=str(id_default_length))
+        assert len(sf.items) == n_id
         for item in sf.items:
-            assert len(item.arg) == shortid_default_length
+            assert len(item.arg) == id_default_length
             assert item.title == item.arg
             assert item.valid is True
 
     def test_boundary_lengths(self):
-        for length in (shortid_min_length, shortid_max_length):
+        for length in (id_min_length, id_max_length):
             sf = main(query=str(length))
-            assert len(sf.items) == n_shortid
+            assert len(sf.items) == n_id
             for item in sf.items:
                 assert len(item.arg) == length
 
@@ -76,14 +76,14 @@ class TestMain:
         sf = main(query="")
         assert len(sf.items) == 1
         item = sf.items[0]
-        assert item.title == msg_enter_shortid
-        assert item.autocomplete == str(shortid_default_length)
+        assert item.title == msg_enter_id
+        assert item.autocomplete == str(id_default_length)
 
     def test_whitespace_query_treated_as_empty(self):
         sf = main(query="   ")
         assert len(sf.items) == 1
         item = sf.items[0]
-        assert item.title == msg_enter_shortid
+        assert item.title == msg_enter_id
 
     def test_non_numeric_argument(self):
         sf = main(query="InValid")
@@ -95,11 +95,11 @@ class TestMain:
         assert item.icon.path == str(afwf.IconFileEnum.error)
 
     def test_out_of_range_argument(self):
-        for query in (str(shortid_min_length - 1), str(shortid_max_length + 1)):
+        for query in (str(id_min_length - 1), str(id_max_length + 1)):
             sf = main(query=query)
             assert len(sf.items) == 1
             item = sf.items[0]
-            assert item.title == msg_shortid_invalid_length_value
+            assert item.title == msg_id_invalid_length_value
             assert item.icon is not None
 
 
@@ -108,6 +108,6 @@ if __name__ == "__main__":
 
     run_cov_test(
         script=__file__,
-        module="afwf_genpass.shortid",
+        module="afwf_genpass.genid",
         preview=False,
     )
