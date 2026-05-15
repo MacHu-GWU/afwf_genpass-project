@@ -1,30 +1,60 @@
 # -*- coding: utf-8 -*-
 
-from pathlib_mate import Path
+from pathlib import Path
+from functools import cached_property
 
-dir_python_lib = Path.dir_here(__file__)
-dir_project_root = dir_python_lib.parent
+_dir_here = Path(__file__).absolute().parent
+PACKAGE_NAME = _dir_here.name
 
-PACKAGE_NAME = dir_python_lib.basename
 
-# ------------------------------------------------------------------------------
-# Alfred Related
-# ------------------------------------------------------------------------------
-dir_home = Path.home()
-dir_project_home = dir_home / ".alfred-afwf" / PACKAGE_NAME
-dir_project_home.mkdir_if_not_exists()
+class PathEnum:
+    """
+    Centralized enumeration of all project paths with absolute path references.
 
-# ------------------------------------------------------------------------------
-# Virtual Environment Related
-# ------------------------------------------------------------------------------
-dir_venv = dir_project_root / ".venv"
-dir_venv_bin = dir_venv / "bin"
+    Provides IDE-autocomplete-friendly access to all project directories and files using
+    absolute paths to eliminate current directory dependencies and ensure consistent path
+    resolution across different execution contexts and DevOps workflows.
+    """
+    @cached_property
+    def dir_home(self):
+        return Path.home()
 
-# virtualenv executable paths
-bin_pytest = dir_venv_bin / "pytest"
+    dir_project_root = _dir_here.parent
+    dir_tmp = dir_project_root / "tmp"
 
-# test related
-dir_htmlcov = dir_project_root / "htmlcov"
-path_cov_index_html = dir_htmlcov / "index.html"
-dir_unit_test = dir_project_root / "tests"
-dir_int_test = dir_project_root / "tests_int"
+    # Source Code
+    dir_package = _dir_here
+    path_version_py = dir_package / "_version.py"
+    path_pyproject_toml = dir_project_root / "pyproject.toml"
+    path_requirements_txt = dir_project_root / "requirements.txt"
+    path_authors = dir_project_root / "AUTHORS.txt"
+    path_license = dir_project_root / "LICENSE.txt"
+    path_release_history = dir_project_root / "release-history.rst"
+
+    # Virtual Environment
+    dir_venv = dir_project_root / ".venv"
+    dir_venv_bin = dir_venv / "bin"
+    path_venv_bin_pip = dir_venv_bin / "pip"
+    path_venv_bin_python = dir_venv_bin / "python"
+    path_venv_bin_pytest = dir_venv_bin / "pytest"
+
+    # Test
+    dir_htmlcov = dir_project_root / "htmlcov"
+    path_cov_index_html = dir_htmlcov / "index.html"
+    dir_unit_test = dir_project_root / "tests"
+    dir_int_test = dir_project_root / "tests_int"
+    dir_load_test = dir_project_root / "tests_load"
+
+    # Documentation
+    dir_docs_source = dir_project_root / "docs" / "source"
+    dir_docs_build_html = dir_project_root / "docs" / "build" / "html"
+
+    # Build
+    dir_build = dir_project_root / "build"
+    dir_dist = dir_project_root / "dist"
+
+
+path_enum = PathEnum()
+"""
+Single entry point for all project paths with absolute path references.
+"""
