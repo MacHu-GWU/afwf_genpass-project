@@ -58,3 +58,9 @@ msg_id_autocomplete = (
 msg_id_invalid_length_value = (
     f"ID Length has to be between {id_min_length} and {id_max_length}!"
 )
+
+# ------------------------------------------------------------------------------
+# UUID4 — 128-bit random identifier, formatted as 8-4-4-4-12 lowercase hex
+# (36 chars including hyphens). Fixed format, so no length / charset config.
+# ------------------------------------------------------------------------------
+n_uuid4 = 8

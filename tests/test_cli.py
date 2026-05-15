@@ -8,6 +8,7 @@ from afwf_genpass.constants import (
     id_default_length,
     n_id,
     n_password,
+    n_uuid4,
 )
 
 
@@ -101,6 +102,55 @@ class TestGenid:
         assert len(captured) == 1
         assert len(captured[0].items) == 1
         assert captured[0].items[0].icon is not None
+
+
+class TestGenuuid4:
+    def test_returns_uuids(self, monkeypatch):
+        captured = []
+        monkeypatch.setattr(
+            afwf.ScriptFilter,
+            "send_feedback",
+            lambda self: captured.append(self),
+        )
+
+        Command().genuuid4()
+
+        assert len(captured) == 1
+        assert len(captured[0].items) == n_uuid4
+
+
+class TestOneVariants:
+    """``_one`` variants print exactly one line to stdout, no Alfred JSON."""
+
+    def test_genpass_one_default_length(self, capsys):
+        Command().genpass_one()
+        out = capsys.readouterr().out.strip()
+        assert len(out) == default_length
+
+    def test_genpass_one_custom_length(self, capsys):
+        Command().genpass_one(length=20)
+        out = capsys.readouterr().out.strip()
+        assert len(out) == 20
+
+    def test_genid_one_default_length(self, capsys):
+        Command().genid_one()
+        out = capsys.readouterr().out.strip()
+        assert len(out) == id_default_length
+
+    def test_genid_one_custom_length(self, capsys):
+        Command().genid_one(length=10)
+        out = capsys.readouterr().out.strip()
+        assert len(out) == 10
+
+    def test_genuuid4_one(self, capsys):
+        import re
+
+        Command().genuuid4_one()
+        out = capsys.readouterr().out.strip()
+        assert re.match(
+            r"^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+            out,
+        )
 
 
 if __name__ == "__main__":

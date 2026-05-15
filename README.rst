@@ -52,7 +52,7 @@ Welcome to ``afwf_genpass`` Documentation
 
 **Use Case**:
 
-This Alfred workflow exposes two independent Script Filters, each bound to its own keyword:
+This Alfred workflow exposes three independent Script Filters, each bound to its own keyword:
 
 - ``genpass`` — **Generate Secure Password**
 
@@ -78,9 +78,18 @@ This Alfred workflow exposes two independent Script Filters, each bound to its o
   - Hit ⌘C on any item to copy the ID to your clipboard
   - Visually-confusing characters ``0``, ``1``, ``l``, ``O``, ``o`` are excluded for readability
 
-For both keywords, if the value you type is not a valid integer in the
-allowed range, the workflow shows an inline error item instead of producing
-garbage results.
+- ``genuuid4`` — **Generate UUID4**
+
+  Just type ``genuuid4`` in Alfred to get 8 freshly generated standard
+  RFC 4122 UUID4s, formatted as ``8-4-4-4-12`` lowercase hex
+  (e.g. ``550e8400-e29b-41d4-a716-446655440000``).
+
+  - No parameters — UUID4 has a fixed format
+  - Hit ⌘C on any item to copy the UUID to your clipboard
+
+For the length-based keywords (``genpass`` / ``genid``), if the value you type
+is not a valid integer in the allowed range, the workflow shows an inline
+error item instead of producing garbage results.
 
 **Installation**:
 

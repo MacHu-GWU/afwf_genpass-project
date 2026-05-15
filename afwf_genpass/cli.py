@@ -3,8 +3,13 @@
 import fire
 import afwf.api as afwf
 
-from .genpass import main as genpass_main
-from .genid import main as genid_main
+from .constants import (
+    default_length as _genpass_default_length,
+    id_default_length as _genid_default_length,
+)
+from .genpass import main as genpass_main, random_password
+from .genid import main as genid_main, gen_id
+from .genuuid4 import main as genuuid4_main, gen_uuid4
 from .paths import path_enum
 
 _log_error = afwf.log_error(
@@ -66,6 +71,45 @@ class Command:
             _run()
         except Exception as e:
             _error_sf(e).send_feedback()
+
+    def genuuid4(self) -> None:
+        """Script Filter: generate random UUID4s.
+
+        UUID4 has no parameters. Configure the Alfred Script Filter node with
+        ``argumenttype=2`` (no argument).
+
+        Alfred Script field (dev):
+            .venv/bin/afwf-genpass genuuid4
+
+        Alfred Script field (prod):
+            ~/.local/bin/uvx --from afwf_genpass==<ver> afwf-genpass genuuid4
+        """
+
+        @_log_error
+        def _run():
+            genuuid4_main().send_feedback()
+
+        try:
+            _run()
+        except Exception as e:
+            _error_sf(e).send_feedback()
+
+    # --------------------------------------------------------------------------
+    # "_one" variants — generate exactly one value and print it to stdout.
+    # No Alfred ScriptFilter, no JSON; useful for shell pipelines / scripts.
+    # --------------------------------------------------------------------------
+
+    def genpass_one(self, length: int = _genpass_default_length) -> None:
+        """Print one random password of the given ``length`` to stdout."""
+        print(random_password(int(length)))
+
+    def genid_one(self, length: int = _genid_default_length) -> None:
+        """Print one YouTube-style random short ID of the given ``length`` to stdout."""
+        print(gen_id(int(length)))
+
+    def genuuid4_one(self) -> None:
+        """Print one random UUID4 to stdout."""
+        print(gen_uuid4())
 
 
 def run():
