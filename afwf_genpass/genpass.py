@@ -4,21 +4,19 @@ import random
 
 import afwf.api as afwf
 
-from .constants import (
-    charset_alpha,
-    charset_digits,
-    charset_lower,
-    charset_list,
-    charset_symbols,
-    charset_upper,
-    default_length,
-    max_length,
-    min_length,
-    msg_autocomplete,
-    msg_enter_password,
-    msg_invalid_length_value,
-    n_password,
-)
+from .constants import charset_alpha
+from .constants import charset_digits
+from .constants import charset_lower
+from .constants import charset_list
+from .constants import charset_symbols
+from .constants import charset_upper
+from .constants import default_length
+from .constants import max_length
+from .constants import min_length
+from .constants import msg_autocomplete
+from .constants import msg_enter_password
+from .constants import msg_invalid_length_value
+from .constants import n_password
 
 
 def is_valid_password(password: str) -> bool:

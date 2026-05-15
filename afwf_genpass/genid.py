@@ -4,16 +4,14 @@ import secrets
 
 import afwf.api as afwf
 
-from .constants import (
-    id_charset,
-    id_default_length,
-    id_max_length,
-    id_min_length,
-    msg_enter_id,
-    msg_id_autocomplete,
-    msg_id_invalid_length_value,
-    n_id,
-)
+from .constants import id_charset
+from .constants import id_default_length
+from .constants import id_max_length
+from .constants import id_min_length
+from .constants import msg_enter_id
+from .constants import msg_id_autocomplete
+from .constants import msg_id_invalid_length_value
+from .constants import n_id
 
 
 def gen_id(length: int) -> str:
